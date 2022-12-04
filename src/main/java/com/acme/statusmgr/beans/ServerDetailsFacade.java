@@ -1,5 +1,7 @@
 package com.acme.statusmgr.beans;
 
+import java.util.List;
+
 public class ServerDetailsFacade {
     static StringBuilder detailsStringBuilder = new StringBuilder();
     static Runtime runtime = Runtime.getRuntime();
@@ -9,10 +11,9 @@ public class ServerDetailsFacade {
      * @param request data that user is requesting
      * @return String
      */
-    static String getDetails(String request) {
-        String[] requestArray = request.split(",");
+    public static String getDetails(List<String> request) {
         for (String s :
-                requestArray) {
+                request) {
             switch (s) {
                 case "availableProcessors":
                     detailsStringBuilder.append(getAvailableProcessors());

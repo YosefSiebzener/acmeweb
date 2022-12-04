@@ -1,5 +1,6 @@
 package com.acme.statusmgr;
 
+import com.acme.statusmgr.beans.ServerDetailsFacade;
 import com.acme.statusmgr.beans.ServerStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,10 +37,11 @@ public class StatusController {
      * Process a request for server status information
      *
      * @param name optional param identifying the requester
-     * @return a ServerStatus object containing the info to be returned to the requestor
+     * @param details optional param for logging details
+     * @return a ServerStatus object containing the info to be returned to the requester
      */
     @RequestMapping("/status")
-    public ServerStatus getStatus(@RequestParam(value = "name", defaultValue = "Anonymous") String name,
+    public ServerStatus getStatus(@RequestParam(defaultValue = "Anonymous") String name,
                                   @RequestParam(required = false) List<String> details) {
         if (!Objects.equals(details,null)) {
             Logger logger = LoggerFactory.getLogger("StuffImInterestedIn");
@@ -47,5 +49,20 @@ public class StatusController {
         }
         return new ServerStatus(counter.incrementAndGet(),
                 String.format(template, name));
+    }
+
+    /**
+     * Process a request for server system information
+     *
+     * @param name optional param identifying the requester
+     * @param details optional param identifying the details to be provided
+     * @return a ServerStatus object containing the info to be returned to the requester
+     */
+    @RequestMapping("status/detailed")
+    public ServerStatus getDetails(@RequestParam(defaultValue = "Anonymous") String name,
+                                  @RequestParam List<String> details) {
+        ServerStatus serverStatus = getStatus(name, details);
+        serverStatus.setStatusDesc(serverStatus.getStatusDesc() + ServerDetailsFacade.getDetails(details));
+        return serverStatus;
     }
 }
