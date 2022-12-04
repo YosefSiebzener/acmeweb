@@ -38,32 +38,74 @@ public class ServerDetailsFacade {
     }
 
     /**
-     * Easily understandable string containing the amount of available processors
+     * Returns easily understandable string containing the amount of available processors
      *
      * @return String
      */
     static String getAvailableProcessors() {
-        return ", and there are " + runtime.availableProcessors() +
+        return getAvailableProcessors(false);
+    }
+
+    /**
+     * Returns easily understandable string containing the amount of available processors
+     *
+     * @param test sets whether method should return actual value or static value
+     *             for testing purposes.
+     * @return String
+     */
+    static String getAvailableProcessors(boolean test) {
+        int amount;
+        amount = test ? 4 : runtime.availableProcessors();
+
+        return ", and there are " + amount +
                 " processors available";
     }
 
     /**
-     * Easily understandable string containing the amount of free memory
+     * Returns easily understandable string containing the amount of free memory
      *
      * @return String
      */
     static String getFreeMemory() {
-        return ", and there are " + runtime.freeMemory() +
+        return getFreeMemory(false);
+    }
+
+    /**
+     * Returns easily understandable string containing the amount of free memory
+     *
+     * @param test sets whether method should return actual value or static value
+     *             for testing purposes.
+     * @return String
+     */
+    static String getFreeMemory(boolean test) {
+        long amount;
+        amount = test ? 127268272 : runtime.freeMemory();
+
+        return ", and there are " + amount +
                 "bytes of JVM memory free";
+    }
+
+    /**
+     * Returns easily understandable string containing the total amount of memory
+     *
+     * @return String
+     */
+    static String getTotalMemory() {
+        return getTotalMemory(false);
     }
 
     /**
      * Easily understandable string containing the total amount of memory
      *
+     * @param test sets whether method should return actual value or static value
+     *             for testing purposes.
      * @return String
      */
-    static String getTotalMemory() {
-        return ", and there is a total of " + runtime.totalMemory() +
+    static String getTotalMemory(boolean test) {
+        long amount;
+        amount = test ? 159383552 : runtime.freeMemory();
+
+        return ", and there is a total of " + amount +
                 "bytes of JVM memory";
     }
 
@@ -74,8 +116,22 @@ public class ServerDetailsFacade {
      */
     static String getJreVersion() {
 
-        return ", and the JRE version is " + Runtime.version();
+        return getJreVersion(false);
     }
+
+    /**
+     * Easily understandable string containing the JRE version info
+     *
+     * @param test sets whether method should return actual value or static value
+     *             for testing purposes.
+     * @return String
+     */
+    static String getJreVersion(boolean test) {
+        String version;
+        version = test ? "15.0.2+7-27" : String.valueOf(Runtime.version());
+        return ", and the JRE version is " + version;
+    }
+
 
     /**
      * Easily understandable string containing the location of the temp file
@@ -83,7 +139,19 @@ public class ServerDetailsFacade {
      * @return String
      */
     static String getTempLocation() {
-        return ", and the server's temp file location is " + System.getenv("TEMP");
+        return getTempLocation(false);
     }
 
+    /**
+     * Easily understandable string containing the location of the temp file
+     *
+     * @param test sets whether method should return actual value or static value
+     *             for testing purposes.
+     * @return String
+     */
+    static String getTempLocation(boolean test) {
+        String loc;
+        loc = test ? "M:\\\\AppData\\\\Local\\\\Temp" : System.getenv("TEMP");
+        return ", and the server's temp file location is " + loc;
+    }
 }
