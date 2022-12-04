@@ -59,6 +59,9 @@ public class ServerStatus {
     public String getStatusDesc() {
         return statusDesc;
     }
+    void setStatusDesc(String s) {
+        statusDesc = s;
+    }
 
     /**
      * Get the cost of this request
