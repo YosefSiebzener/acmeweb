@@ -58,10 +58,10 @@ public class StatusController {
      * @return a ServerStatus object containing the info to be returned to the requester
      */
     @RequestMapping("status/detailed")
-    public String getStatusDesc(@RequestParam(defaultValue = "Anonymous") String name,
+    public DetailsBaseImplementation getStatusDesc(@RequestParam(defaultValue = "Anonymous") String name,
                                   @RequestParam List<String> details) {
         ServerStatus serverStatus = getStatus(name, details);
-        return iterateThroughDetails(serverStatus, details).getStatusDesc();
+        return iterateThroughDetails(serverStatus, details);
     }
 
     private DetailsBaseImplementation iterateThroughDetails(ServerStatus serverStatus, List<String> details) {
@@ -71,14 +71,19 @@ public class StatusController {
             switch (detail) {
                 case "availableProcessors":
                     dbi = new AvailableProcessorsDecorator(dbi);
-                case "freeMemory":
+                    break;
+                case "freeJVMMemory":
                     dbi = new FreeMemoryDecorator(dbi);
+                    break;
                 case "jreVersion":
                     dbi = new JreVersionDecorator(dbi);
+                    break;
                 case "tempLocation":
                     dbi = new TempLocationDecorator(dbi);
-                case "totalMemory":
+                    break;
+                case "totalJVMMemory":
                     dbi = new TotalMemoryDecorator(dbi);
+                    break;
                 default:
                     dbi = new DetailsBaseImplementation(dbi);
             }

@@ -16,9 +16,6 @@ public class ServerStatus extends DetailsBaseImplementation {
      * @param contentHeader info about the request
      */
     public ServerStatus(long id, String contentHeader) {
-        super(id, contentHeader, 1);
-
-        // Obtain current status of server
-        setStatusDesc("Server is " + ServerManager.getCurrentServerStatus());
+        super(id, contentHeader, "Server is " + ServerManager.getCurrentServerStatus(), 1);
     }
 }
