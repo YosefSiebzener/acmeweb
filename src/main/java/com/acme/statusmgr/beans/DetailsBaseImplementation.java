@@ -4,13 +4,14 @@ public class DetailsBaseImplementation {
 
     private long id;                // Unique identifier of request, sequential number
     private String contentHeader;   // Some info about the request
-    private String statusDesc = ", and unknown request";  // the status being returned
+    DetailsBaseImplementation dbi;
+    private StringBuilder statusDesc;  // the status being returned
     private int requestCost = 0;  // the cost in pennies of this request.
     SystemInformationFacadeInterface sifi = new ServerDetailsFacade();
-    DetailsBaseImplementation dbi;
 
     public DetailsBaseImplementation(DetailsBaseImplementation dbi) {
         this.dbi = dbi;
+        setStatusDesc();
     }
     DetailsBaseImplementation(DetailsBaseImplementation dbi, int requestCost) {
         this.dbi = dbi;
@@ -45,11 +46,15 @@ public class DetailsBaseImplementation {
      * @return A string describing status
      */
     public String getStatusDesc() {
-        return dbi.getStatusDesc() + statusDesc;
+        return statusDesc.toString();
+    }
+
+    private void setStatusDesc() {
+         statusDesc.append(", and unknown request");
     }
 
     public void setStatusDesc(String s) {
-        statusDesc = s;
+        statusDesc.append(s);
     }
 
     /**
