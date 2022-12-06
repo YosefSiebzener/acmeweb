@@ -85,7 +85,7 @@ public class StatusController {
                     dbi = new TotalMemoryDecorator(dbi);
                     break;
                 default:
-                    dbi = new DetailsBaseImplementation(dbi);
+                    throw new UnsupportedDetailsRequestException(detail);
             }
         }
         return dbi;
