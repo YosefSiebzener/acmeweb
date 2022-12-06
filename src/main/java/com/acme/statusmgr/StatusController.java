@@ -62,7 +62,7 @@ public class StatusController {
     public ServerStatus getDetails(@RequestParam(defaultValue = "Anonymous") String name,
                                   @RequestParam List<String> details) {
         ServerStatus serverStatus = getStatus(name, details);
-        serverStatus.setStatusDesc(serverStatus.getStatusDesc() + ServerDetailsFacade.getDetails(details));
+        serverStatus.setStatusDesc(serverStatus.getStatusDesc());
         return serverStatus;
     }
 }
