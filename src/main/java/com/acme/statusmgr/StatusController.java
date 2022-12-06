@@ -1,7 +1,6 @@
 package com.acme.statusmgr;
 
-import com.acme.statusmgr.beans.ServerDetailsFacade;
-import com.acme.statusmgr.beans.ServerStatus;
+import com.acme.statusmgr.beans.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,10 +58,31 @@ public class StatusController {
      * @return a ServerStatus object containing the info to be returned to the requester
      */
     @RequestMapping("status/detailed")
-    public ServerStatus getDetails(@RequestParam(defaultValue = "Anonymous") String name,
+    public String getStatusDesc(@RequestParam(defaultValue = "Anonymous") String name,
                                   @RequestParam List<String> details) {
         ServerStatus serverStatus = getStatus(name, details);
-        serverStatus.setStatusDesc(serverStatus.getStatusDesc());
-        return serverStatus;
+        return iterateThroughDetails(serverStatus, details).getStatusDesc();
+    }
+
+    private DetailsBaseImplementation iterateThroughDetails(ServerStatus serverStatus, List<String> details) {
+        DetailsBaseImplementation dbi = serverStatus;
+        for (String detail :
+                details) {
+            switch (detail) {
+                case "availableProcessors":
+                    dbi = new AvailableProcessorsDecorator(dbi);
+                case "freeMemory":
+                    dbi = new FreeMemoryDecorator(dbi);
+                case "jreVersion":
+                    dbi = new JreVersionDecorator(dbi);
+                case "tempLocation":
+                    dbi = new TempLocationDecorator(dbi);
+                case "totalMemory":
+                    dbi = new TotalMemoryDecorator(dbi);
+                default:
+                    dbi = new DetailsBaseImplementation(dbi);
+            }
+        }
+        return dbi;
     }
 }

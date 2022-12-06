@@ -1,13 +1,17 @@
 package com.acme.statusmgr.beans;
 
-public abstract class DetailsBaseImplementation {
+public class DetailsBaseImplementation {
 
     private long id;                // Unique identifier of request, sequential number
     private String contentHeader;   // Some info about the request
-    private String statusDesc = "Unknown";  // the status being returned
-    private int requestCost;  // the cost in pennies of this request.
+    private String statusDesc = ", and unknown request";  // the status being returned
+    private int requestCost = 0;  // the cost in pennies of this request.
     SystemInformationFacadeInterface sifi = new ServerDetailsFacade();
     DetailsBaseImplementation dbi;
+
+    public DetailsBaseImplementation(DetailsBaseImplementation dbi) {
+        this.dbi = dbi;
+    }
     DetailsBaseImplementation(DetailsBaseImplementation dbi, int requestCost) {
         this.dbi = dbi;
         this.requestCost = requestCost;
