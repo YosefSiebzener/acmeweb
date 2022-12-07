@@ -3,10 +3,14 @@ package com.acme.statusmgr;
 import com.acme.statusmgr.beans.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
@@ -59,12 +63,13 @@ public class StatusController {
      */
     @RequestMapping("status/detailed")
     public DetailsBaseImplementation getStatusDesc(@RequestParam(defaultValue = "Anonymous") String name,
-                                  @RequestParam List<String> details) {
+                                  @RequestParam List<String> details, HttpServletResponse response) throws IOException {
         ServerStatus serverStatus = getStatus(name, details);
-        return iterateThroughDetails(serverStatus, details);
+        return iterateThroughDetails(serverStatus, details, response);
     }
 
-    private DetailsBaseImplementation iterateThroughDetails(ServerStatus serverStatus, List<String> details) {
+    private DetailsBaseImplementation iterateThroughDetails(ServerStatus serverStatus, List<String> details,
+                                                            HttpServletResponse response) throws IOException {
         DetailsBaseImplementation dbi = serverStatus;
         for (String detail :
                 details) {
@@ -85,9 +90,14 @@ public class StatusController {
                     dbi = new TotalMemoryDecorator(dbi);
                     break;
                 default:
-                    throw new UnsupportedDetailsRequestException(detail);
+                    throwException(response, detail);
             }
         }
         return dbi;
+    }
+
+    // Based off of: https://stackoverflow.com/questions/8594645/in-spring-3-is-it-possible-to-dynamically-set-the-reason-of-responsestatus#:~:text=You%20can%20use,error%20message%22)%3B%0A%7D
+    private void throwException(final HttpServletResponse response, String badParam) throws IOException {
+        response.sendError(HttpStatus.BAD_REQUEST.value(), "Invalid details option: " + badParam);
     }
 }
