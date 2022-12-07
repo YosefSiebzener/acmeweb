@@ -1,51 +1,38 @@
 package com.acme.statusmgr.beans;
 
+import com.acme.servermgr.ServerManager;
+
 public class ServerDetailsFacade implements SystemInformationFacadeInterface {
     static Runtime runtime = Runtime.getRuntime();
 
-    /**
-     * Returns amount of available processors
-     *
-     * @return int
-     */
+    @Override
     public int getAvailableProcessors() {
         return runtime.availableProcessors();
     }
 
-    /**
-     * Returns amount of free memory
-     *
-     * @return long
-     */
+    @Override
     public long getFreeMemory() {
         return runtime.freeMemory();
     }
 
-    /**
-     * Returns total amount of memory
-     *
-     * @return long
-     */
+    @Override
     public long getTotalMemory() {
         return runtime.totalMemory();
     }
 
-    /**
-     * Easily the JRE version info
-     *
-     * @return String
-     */
+    @Override
     public String getJreVersion() {
         return String.valueOf(Runtime.version());
     }
 
 
-    /**
-     * Easily the location of the temp file
-     *
-     * @return String
-     */
+    @Override
     public String getTempLocation() {
         return System.getenv("TEMP");
+    }
+
+    @Override
+    public String getServerStatus() {
+        return ServerManager.getCurrentServerStatus();
     }
 }

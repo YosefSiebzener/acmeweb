@@ -23,7 +23,7 @@ public interface SystemInformationFacadeInterface {
      */
     public long getTotalMemory();
     /**
-     * Easily the JRE version info
+     * Returns the JRE version info
      *
      * @return String
      */
@@ -31,9 +31,16 @@ public interface SystemInformationFacadeInterface {
 
 
     /**
-     * Easily the location of the temp file
+     * Returns the location of the temp file
      *
      * @return String
      */
     public String getTempLocation();
+
+    /**
+     * Returns the server status
+     *
+     * @return String
+     */
+    public String getServerStatus();
 }
