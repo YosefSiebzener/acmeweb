@@ -65,8 +65,10 @@ public class ServerStatusControllerTests {
 //    }
 
     /**
+     * Simple test with no params or details.
+     * <p>
+     * Tests status and statusDesc
      *
-     * @throws Exception
      */
     @Test
     public void noNameParamShouldReturnDefaultMessage() throws Exception {
@@ -74,6 +76,11 @@ public class ServerStatusControllerTests {
                 .andExpect(jsonPath("$.statusDesc").value("Server is up"));
     }
 
+    /**
+     * Simple test with name param.
+     * <p>
+     * Tests status, contentHeader and statusDesc
+     */
     @Test
     public void nameParamShouldReturnTailoredMessage() throws Exception {
 
@@ -82,6 +89,11 @@ public class ServerStatusControllerTests {
                 .andExpect(jsonPath("$.contentHeader").value("Server Status requested by RebYid"));
     }
 
+    /**
+     * Test with name param and a detail.
+     * <p>
+     * Tests status, contentHeader and statusDesc
+     */
     @Test
     public void detailed_name_availProc() throws Exception {
         this.mockMvc.perform(get("/server/status/detailed?details=availableProcessors&name=Yankel"))
@@ -91,6 +103,11 @@ public class ServerStatusControllerTests {
                 .andExpect(jsonPath("$.statusDesc").value("Server is up, and there are 4 processors available"));
     }
 
+    /**
+     * Test with name param and a detail.
+     * <p>
+     * Tests status, contentHeader and statusDesc
+     */
     @Test
     public void detailed_name_freeMem() throws Exception {
         this.mockMvc.perform(get("/server/status/detailed?details=freeJVMMemory&name=Yankel"))
@@ -100,6 +117,11 @@ public class ServerStatusControllerTests {
                 .andExpect(jsonPath("$.statusDesc").value("Server is up, and there are 127268272 bytes of JVM memory free"));
     }
 
+    /**
+     * Test with name param and a detail.
+     * <p>
+     * Tests status, contentHeader and statusDesc
+     */
     @Test
     public void detailed_name_totMem() throws Exception {
         this.mockMvc.perform(get("/server/status/detailed?details=totalJVMMemory&name=Yankel"))
@@ -109,6 +131,11 @@ public class ServerStatusControllerTests {
                 .andExpect(jsonPath("$.statusDesc").value("Server is up, and there is a total of 159383552 bytes of JVM memory"));
     }
 
+    /**
+     * Test with name param and a detail.
+     * <p>
+     * Tests status, contentHeader and statusDesc
+     */
     @Test
     public void detailed_name_jreVersion() throws Exception {
         this.mockMvc.perform(get("/server/status/detailed?details=jreVersion&name=Yankel"))
@@ -118,6 +145,11 @@ public class ServerStatusControllerTests {
                 .andExpect(jsonPath("$.statusDesc").value("Server is up, and the JRE version is 15.0.2+7-27"));
     }
 
+    /**
+     * Test with name param and a detail.
+     * <p>
+     * Tests status, contentHeader and statusDesc
+     */
     @Test
     public void detailed_name_tempLoc() throws Exception {
         this.mockMvc.perform(get("/server/status/detailed?details=tempLocation&name=Yankel"))
@@ -127,6 +159,11 @@ public class ServerStatusControllerTests {
                 .andExpect(jsonPath("$.statusDesc").value("Server is up, and the server's temp file location is M:\\AppData\\Local\\Temp"));
     }
 
+    /**
+     * Test with name param and 2 different details.
+     * <p>
+     * Tests status, contentHeader and statusDesc
+     */
     @Test
     public void detailed_name_tempLoc_availProc() throws Exception {
         this.mockMvc.perform(get("/server/status/detailed?details=tempLocation,availableProcessors&name=Yankel"))
@@ -136,6 +173,11 @@ public class ServerStatusControllerTests {
                 .andExpect(jsonPath("$.statusDesc").value("Server is up, and the server's temp file location is M:\\AppData\\Local\\Temp, and there are 4 processors available"));
     }
 
+    /**
+     * Test with name param and 5 different details.
+     * <p>
+     * Tests status, contentHeader and statusDesc
+     */
     @Test
     public void detailed_name_jreVersion_freeMem_availProc_totMem_tempLoc() throws Exception {
         this.mockMvc.perform(get("/server/status/detailed?details=jreVersion,freeJVMMemory,availableProcessors,totalJVMMemory,tempLocation&name=Yankel"))
@@ -150,6 +192,11 @@ public class ServerStatusControllerTests {
                         ", and the server's temp file location is M:\\AppData\\Local\\Temp"));
     }
 
+    /**
+     * Test with name param and the same detail 4 times.
+     * <p>
+     * Tests status, contentHeader and statusDesc
+     */
     @Test
     public void detailed_name_availProc_availProc_availProc_availProc() throws Exception {
         this.mockMvc.perform(get("/server/status/detailed?details=availableProcessors,availableProcessors,availableProcessors,availableProcessors&name=Yankel"))
@@ -163,6 +210,11 @@ public class ServerStatusControllerTests {
                         ", and there are 4 processors available"));
     }
 
+    /**
+     * Test with name param and 3 details repeated twice.
+     * <p>
+     * Tests status, contentHeader and statusDesc
+     */
     @Test
     public void detailed_name_freeMem_availProc_totMem_freeMem_availProc_totMem() throws Exception {
         this.mockMvc.perform(get("/server/status/detailed?details=freeJVMMemory,availableProcessors,totalJVMMemory," +
@@ -179,9 +231,29 @@ public class ServerStatusControllerTests {
                         ", and there is a total of 159383552 bytes of JVM memory"));
     }
 
+    /**
+     * Test with unsupported parameter passed into url.
+     * <p>
+     * Tests which exception was thrown and if it has the correct reason.
+     * @throws org.springframework.web.client.HttpClientErrorException.BadRequest
+     */
     @Test
     public void unsupported_param_should_throw_exception() throws Exception {
         this.mockMvc.perform(get("/server/status/detailed?details=HelloWorld"))
+                .andDo(print()).andExpect(status().isBadRequest())
+                .andExpect(status().reason(is("Invalid details option: HelloWorld")));
+    }
+
+    /**
+     * Test with unsupported parameter passed into url.
+     * <p>
+     * Tests which exception was thrown and if it has the correct reason.
+     * @throws org.springframework.web.client.HttpClientErrorException.BadRequest
+     */
+    @Test
+    public void unsupported_param_with_supported_params_should_throw_exception() throws Exception {
+        this.mockMvc.perform(get("/server/status/detailed?details=freeJVMMemory,availableProcessors," +
+                        "totalJVMMemory,HelloWorld"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(status().reason(is("Invalid details option: HelloWorld")));
     }
