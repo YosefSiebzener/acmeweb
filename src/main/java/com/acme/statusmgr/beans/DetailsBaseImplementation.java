@@ -2,31 +2,19 @@ package com.acme.statusmgr.beans;
 
 public abstract class DetailsBaseImplementation {
 
-    private long id;                // Unique identifier of request, sequential number
-    private String contentHeader;   // Some info about the request
-    private int requestCost = 0;  // the cost in pennies of this request.
-    DetailsBaseImplementation dbi;
-    private String statusDesc = "";  // the status being returned
-    SystemInformationFacadeInterface sifi = new ServerDetailsFacade();
+    protected long id;                // Unique identifier of request, sequential number
+    protected String contentHeader;   // Some info about the request
+    protected int requestCost;  // the cost in pennies of this request.
+    private DetailsBaseImplementation dbi;
+    protected String statusDesc = "";  // the status being returned
+    protected static SystemInformationFacadeInterface sifi = new ServerDetailsFacade();
 
     DetailsBaseImplementation(DetailsBaseImplementation dbi, int requestCost) {
         this.dbi = dbi;
-        this.requestCost = dbi.getRequestCost() + requestCost;
-        this.contentHeader = dbi.getContentHeader();
-        this.id = dbi.getId();
-        this.sifi = dbi.getSystemInformationFacade();
+        this.requestCost = requestCost;
     }
 
-    DetailsBaseImplementation(DetailsBaseImplementation dbi,
-                              int requestCost, SystemInformationFacadeInterface sifi) {
-        this.dbi = dbi;
-        this.requestCost += requestCost;
-        this.sifi = sifi;
-    }
-
-    DetailsBaseImplementation(long id, String contentHeader, String statusDesc, int requestCost) {
-        this.id = id;
-        this.contentHeader = contentHeader;
+    DetailsBaseImplementation(String statusDesc, int requestCost) {
         this.statusDesc = statusDesc;
         this.requestCost = requestCost;
     }
@@ -37,7 +25,7 @@ public abstract class DetailsBaseImplementation {
      * @return some string
      */
     public String getContentHeader() {
-        return contentHeader;
+        return dbi.getContentHeader();
     }
 
     /**
@@ -46,11 +34,11 @@ public abstract class DetailsBaseImplementation {
      * @return A string describing status
      */
     public String getStatusDesc() {
-        return statusDesc;
+        return dbi.getStatusDesc() + statusDesc;
     }
 
     public void setStatusDesc(String s) {
-        statusDesc = dbi.getStatusDesc() + s;
+        statusDesc = s;
     }
 
     /**
@@ -58,7 +46,7 @@ public abstract class DetailsBaseImplementation {
      * @return Integer representing the cost of request as number of pennies
      */
     public int getRequestCost() {
-        return requestCost;
+        return dbi.getRequestCost() + requestCost;
     }
 
     /**
@@ -67,10 +55,10 @@ public abstract class DetailsBaseImplementation {
      * @return a numeric id that increases during life of server for each request .
      */
     public long getId() {
-        return id;
+        return dbi.getId();
     }
 
-    SystemInformationFacadeInterface getSystemInformationFacade() {
-        return sifi;
+    public static void setSifi(SystemInformationFacadeInterface sifi) {
+        DetailsBaseImplementation.sifi = sifi;
     }
 }

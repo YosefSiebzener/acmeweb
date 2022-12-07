@@ -16,6 +16,28 @@ public class ServerStatus extends DetailsBaseImplementation {
      * @param contentHeader info about the request
      */
     public ServerStatus(long id, String contentHeader) {
-        super(id, contentHeader, "Server is " + ServerManager.getCurrentServerStatus(), 1);
+        super("Server is " + ServerManager.getCurrentServerStatus(), 1);
+        this.id = id;
+        this.contentHeader = contentHeader;
+    }
+
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public String getContentHeader() {
+        return contentHeader;
+    }
+
+    @Override
+    public String getStatusDesc() {
+        return statusDesc;
+    }
+
+    @Override
+    public int getRequestCost() {
+        return requestCost;
     }
 }
