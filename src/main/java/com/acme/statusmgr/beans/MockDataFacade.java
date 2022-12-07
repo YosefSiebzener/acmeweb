@@ -1,6 +1,8 @@
 package com.acme.statusmgr.beans;
 
-
+/**
+ * This class returns static values for testing purposes.
+ */
 public class MockDataFacade implements SystemInformationFacadeInterface {
     @Override
     public int getAvailableProcessors() {
