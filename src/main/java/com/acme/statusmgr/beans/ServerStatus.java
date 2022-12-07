@@ -16,7 +16,7 @@ public class ServerStatus extends DetailsBaseImplementation {
      * @param contentHeader info about the request
      */
     public ServerStatus(long id, String contentHeader) {
-        super("Server is " + ServerManager.getCurrentServerStatus(), 1);
+        super("Server is " + sifi.getServerStatus(), 1);
         this.id = id;
         this.contentHeader = contentHeader;
     }
