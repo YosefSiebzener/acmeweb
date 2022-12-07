@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * Syntax for URLS:
  * All start with /server
  * /status  will give back status of server
- * a param of 'name' specifies a requestor name to appear in response
+ * a param of 'name' specifies a requester name to appear in response
  * <p>
  * Examples:
  * http://localhost:8080/server/status
@@ -74,23 +73,12 @@ public class StatusController {
         for (String detail :
                 details) {
             switch (detail) {
-                case "availableProcessors":
-                    dbi = new AvailableProcessorsDecorator(dbi);
-                    break;
-                case "freeJVMMemory":
-                    dbi = new FreeMemoryDecorator(dbi);
-                    break;
-                case "jreVersion":
-                    dbi = new JreVersionDecorator(dbi);
-                    break;
-                case "tempLocation":
-                    dbi = new TempLocationDecorator(dbi);
-                    break;
-                case "totalJVMMemory":
-                    dbi = new TotalMemoryDecorator(dbi);
-                    break;
-                default:
-                    throwException(response, detail);
+                case "availableProcessors" -> dbi = new AvailableProcessorsDecorator(dbi);
+                case "freeJVMMemory" -> dbi = new FreeMemoryDecorator(dbi);
+                case "jreVersion" -> dbi = new JreVersionDecorator(dbi);
+                case "tempLocation" -> dbi = new TempLocationDecorator(dbi);
+                case "totalJVMMemory" -> dbi = new TotalMemoryDecorator(dbi);
+                default -> throwException(response, detail);
             }
         }
         return dbi;
