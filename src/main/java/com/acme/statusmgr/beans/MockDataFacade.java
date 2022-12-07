@@ -1,28 +1,34 @@
 package com.acme.statusmgr.beans;
 
-public class MockFacade implements SystemInformationFacadeInterface {
+
+public class MockDataFacade implements SystemInformationFacadeInterface {
     @Override
     public int getAvailableProcessors() {
-        return 0;
+        return 4;
     }
 
     @Override
     public long getFreeMemory() {
-        return 0;
+        return 127268272;
     }
 
     @Override
     public long getTotalMemory() {
-        return 0;
+        return 159383552;
     }
 
     @Override
     public String getJreVersion() {
-        return null;
+        return "15.0.2+7-27";
     }
 
     @Override
     public String getTempLocation() {
-        return null;
+        return "M:\\AppData\\Local\\Temp";
+    }
+
+    @Override
+    public String getServerStatus() {
+        return "up";
     }
 }
