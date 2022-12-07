@@ -1,9 +1,9 @@
 package com.acme.statusmgr.beans;
 
-import com.acme.servermgr.ServerManager;
-
 /**
- * A POJO that represents Server Status and can be returned as the result of a request.
+ * Decorator used for getting server status and recording the price for the request.
+ * This class also sets the request id as well as the content header (basic information about the request).
+ * @see com.acme.statusmgr.beans.DetailsBaseImplementation
  */
 public class ServerStatus extends DetailsBaseImplementation {
 

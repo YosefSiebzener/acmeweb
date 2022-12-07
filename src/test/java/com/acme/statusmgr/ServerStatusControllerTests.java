@@ -24,6 +24,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -43,21 +45,31 @@ public class ServerStatusControllerTests {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
-    public void idIncrementationTest() throws Exception {
-        this.mockMvc.perform(get("/server/status")).andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1));
-        this.mockMvc.perform(get("/server/status")).andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(2));
-        this.mockMvc.perform(get("/server/status/detailed?details=availableProcessors")).andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(3));
-        this.mockMvc.perform(get("/server/status/detailed?details=availableProcessors")).andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(4));
-    }
+//    /**
+//     * Test to check if id is auto incrementing.
+//     *
+//     * <p>
+//     * WARNING: Test is currently unreliable if ran with other tests at the same time.
+//     * This test is only reliable if it is run by itself.
+//     */
+//    @Test
+//    public void idIncrementationTest() throws Exception {
+//        this.mockMvc.perform(get("/server/status")).andExpect(status().isOk())
+//                .andExpect(jsonPath("$.id").value(1));
+//        this.mockMvc.perform(get("/server/status")).andExpect(status().isOk())
+//                .andExpect(jsonPath("$.id").value(2));
+//        this.mockMvc.perform(get("/server/status/detailed?details=availableProcessors")).andExpect(status().isOk())
+//                .andExpect(jsonPath("$.id").value(3));
+//        this.mockMvc.perform(get("/server/status/detailed?details=availableProcessors")).andExpect(status().isOk())
+//                .andExpect(jsonPath("$.id").value(4));
+//    }
 
+    /**
+     *
+     * @throws Exception
+     */
     @Test
     public void noNameParamShouldReturnDefaultMessage() throws Exception {
-
         this.mockMvc.perform(get("/server/status")).andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.statusDesc").value("Server is up"));
     }

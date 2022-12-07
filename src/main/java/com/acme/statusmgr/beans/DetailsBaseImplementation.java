@@ -1,5 +1,13 @@
 package com.acme.statusmgr.beans;
 
+/**
+ * Base abstract class for all decorators that get various system information. The gotten information
+ * can be strung together to form a human-readable string about various parts of the system.
+ * <p>
+ * In addition, this class contains data about the data request, such as the id, content header,
+ * and the cost of the request, providing methods to access all of this data.
+ *
+ */
 public abstract class DetailsBaseImplementation {
 
     protected long id;                // Unique identifier of request, sequential number
@@ -9,6 +17,11 @@ public abstract class DetailsBaseImplementation {
     protected String statusDesc = "";  // the status being returned
     protected static SystemInformationFacadeInterface sifi = new ServerDetailsFacade();
 
+    /**
+     * javadoc
+     * @param dbi
+     * @param requestCost
+     */
     DetailsBaseImplementation(DetailsBaseImplementation dbi, int requestCost) {
         this.dbi = dbi;
         this.requestCost = requestCost;
