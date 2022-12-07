@@ -8,10 +8,4 @@ public class TempLocationDecorator extends DetailsBaseImplementation {
         super(dbi, 29);
         setStatusDesc(statusDesc);
     }
-
-    public TempLocationDecorator(DetailsBaseImplementation dbi,
-                                        SystemInformationFacadeInterface sifi) {
-        super(dbi,29, sifi);
-        setStatusDesc(statusDesc);
-    }
 }

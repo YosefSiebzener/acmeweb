@@ -7,10 +7,4 @@ public class JreVersionDecorator extends DetailsBaseImplementation {
         super(dbi, 19);
         setStatusDesc(statusDesc);
     }
-
-    public JreVersionDecorator(DetailsBaseImplementation dbi,
-                                        SystemInformationFacadeInterface sifi) {
-        super(dbi,19, sifi);
-        setStatusDesc(statusDesc);
-    }
 }

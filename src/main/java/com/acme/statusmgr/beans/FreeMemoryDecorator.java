@@ -8,10 +8,4 @@ public class FreeMemoryDecorator extends DetailsBaseImplementation {
         super(dbi, 7);
         setStatusDesc(statusDesc);
     }
-
-    public FreeMemoryDecorator(DetailsBaseImplementation dbi,
-                                        SystemInformationFacadeInterface sifi) {
-        super(dbi,7, sifi);
-        setStatusDesc(statusDesc);
-    }
 }

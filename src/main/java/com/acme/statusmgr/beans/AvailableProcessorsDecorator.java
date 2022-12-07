@@ -8,10 +8,4 @@ public class AvailableProcessorsDecorator extends DetailsBaseImplementation {
         super(dbi, 3);
         setStatusDesc(statusDesc);
     }
-
-    public AvailableProcessorsDecorator(DetailsBaseImplementation dbi,
-                                        SystemInformationFacadeInterface sifi) {
-        super(dbi,3, sifi);
-        setStatusDesc(statusDesc);
-    }
 }

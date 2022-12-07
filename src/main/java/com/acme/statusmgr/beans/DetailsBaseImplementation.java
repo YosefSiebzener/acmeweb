@@ -1,6 +1,6 @@
 package com.acme.statusmgr.beans;
 
-public class DetailsBaseImplementation {
+public abstract class DetailsBaseImplementation {
 
     private long id;                // Unique identifier of request, sequential number
     private String contentHeader;   // Some info about the request
@@ -9,14 +9,6 @@ public class DetailsBaseImplementation {
     private String statusDesc = "";  // the status being returned
     SystemInformationFacadeInterface sifi = new ServerDetailsFacade();
 
-    public DetailsBaseImplementation(DetailsBaseImplementation dbi) {
-        this.dbi = dbi;
-        setStatusDesc();
-        this.requestCost = dbi.getRequestCost() + requestCost;
-        this.contentHeader = dbi.getContentHeader();
-        this.id = dbi.getId();
-        this.sifi = dbi.getSystemInformationFacade();
-    }
     DetailsBaseImplementation(DetailsBaseImplementation dbi, int requestCost) {
         this.dbi = dbi;
         this.requestCost = dbi.getRequestCost() + requestCost;
@@ -55,10 +47,6 @@ public class DetailsBaseImplementation {
      */
     public String getStatusDesc() {
         return statusDesc;
-    }
-
-    private void setStatusDesc() {
-         statusDesc = dbi.getStatusDesc() + ", and unknown request";
     }
 
     public void setStatusDesc(String s) {
