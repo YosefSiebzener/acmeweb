@@ -1,17 +1,11 @@
 package com.acme.statusmgr.beans;
 
-import com.acme.servermgr.ServerManager;
-
 /**
- * A POJO that represents Server Status and can be returned as the result of a request.
+ * Decorator used for getting server status and recording the price for the request.
+ * This class also sets the request id as well as the content header (basic information about the request).
+ * @see com.acme.statusmgr.beans.DetailsBaseImplementation
  */
-public class ServerStatus {
-
-
-    private long id;                // Unique identifier of request, sequential number
-    private String contentHeader;   // Some info about the request
-    private String statusDesc = "Unknown";  // the status being returned
-    private final Integer requestCost = 1;  // the cost in pennies of this request.
+public class ServerStatus extends DetailsBaseImplementation {
 
     /**
      * Construct a ServerStatus using info passed in for identification, and obtaining current
@@ -22,50 +16,28 @@ public class ServerStatus {
      * @param contentHeader info about the request
      */
     public ServerStatus(long id, String contentHeader) {
+        super("Server is " + sifi.getServerStatus(), 1);
         this.id = id;
         this.contentHeader = contentHeader;
-
-        // Obtain current status of server
-        this.statusDesc = "Server is " + ServerManager.getCurrentServerStatus();
     }
 
-    public ServerStatus() {
-
-    }
-
-    /**
-     * get the id of this request
-     *
-     * @return a numeric id that increases during life of server for each request .
-     */
+    @Override
     public long getId() {
         return id;
     }
 
-    /**
-     * Get the content header that was specified by the request
-     *
-     * @return some string
-     */
+    @Override
     public String getContentHeader() {
         return contentHeader;
     }
 
-    /**
-     * Get an english-like description of the server's status
-     *
-     * @return A string describing status
-     */
+    @Override
     public String getStatusDesc() {
         return statusDesc;
     }
 
-    /**
-     * Get the cost of this request
-     * @return Integer representing the cost of request as number of pennies
-     */
-    public Integer getRequestCost() {
+    @Override
+    public int getRequestCost() {
         return requestCost;
     }
-
 }
